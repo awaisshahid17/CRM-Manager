@@ -121,7 +121,7 @@ venv.bak/
 .spyproject
 
 # Rope project settings
-.ropeproject
+.ropeprojectinit.py
 
 # mkdocs documentation
 /site
