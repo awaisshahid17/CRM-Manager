@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="offset-4 col-md-3">
+    <title>{% block title %}Registration Form{% endblock %}</title>
+
+<h2>Registration Form</h2>
+<form method='POST' action=''>
+    {% csrf_token %}
+    {{form.as_p}}
+    <input class = 'btn btn-sm btn-primary' type='Submit' value="Submit" />
+
+</form>
+</div>
+    {% endblock %}

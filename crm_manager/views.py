@@ -1,5 +1,8 @@
 from random import choice
 import json
+
+from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.views.generic import DetailView, ListView, CreateView, UpdateView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.auth.models import User
@@ -14,6 +17,17 @@ from django.http import HttpResponse, response, JsonResponse, HttpResponseBadReq
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from datetime import datetime
+from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import FormView, RedirectView
+
+from django.utils.http import is_safe_url
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
+from django.utils.decorators import method_decorator
+
+
+
 
 # Create your views here.
 
@@ -45,6 +59,8 @@ class AddPromo(View):
         return template
 
 class Landing(View):
+    # @user_passes_test(lambda u: u.is_superuser)
+    # @login_required(login_url="accounts/login/")
     def get(self, request):
         return render(request, "landing.html", {})
 
@@ -154,10 +170,9 @@ class EditCalculatorView(View):
             print e
         return HttpResponse(result)
 
-1
-
 
 class AddCodeView(CreateView):
+    @login_required(login_url="/login/")
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super(AddCodeView, self).dispatch(request, *args, **kwargs)
